@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Book Details</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        .hero {
+            background-color: #4CAF50;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .book-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-details {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-details h2 {
+            font-size: 2rem;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #FF8C00;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+        }
+
+        .btn-custom:hover {
+            background-color: #FF7F00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4CAF50; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyZaXARHXKcndR03flngZmk3KZ4Ze6IQrGqQ&s" alt="Bookshop Logo" class="logo" style="width: 50px; height: auto;">
+                REBOOK
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sell_book' %}" style="color: white;">Sell a Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" style="color: white;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}" style="color: white;">Signup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book-list' %}" style="color: white;">All Books</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-3" method="get" action="{% url 'home' %}">
+                    <input class="form-control" type="search" placeholder="Search books" name="q" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section for Book Title -->
+    <div class="hero">
+        <h1>{{ book.title }}</h1>
+        <p>by {{ book.author }}</p>
+    </div>
+
+    <!-- Book Details Section -->
+    <div class="container my-5 book-details">
+        <div class="row">
+            <div class="col-md-6">
+                {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-image">
+                {% else %}
+                <img src="https://via.placeholder.com/400x300" alt="No image available" class="book-image">
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Book Details</h2>
+                <p><strong>Description:</strong> {{ book.description }}</p>
+                <p><strong>Condition:</strong> {{ book.condition }}</p>
+                <p><strong>Price:</strong> ${{ book.price }}</p>
+                <p><strong>Seller:</strong> {{ book.seller.username }}</p>
+
+                <!-- Buy Button -->
+                <a href="{% url 'buy_book' book.id %}" class="btn btn-custom">Buy Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background-color: #333; color: white; padding: 20px 0;">
+        <div class="container text-center">
+            <p>&copy; 2024 REBOOK. All rights reserved.</p>
+            <a href="{% url 'home' %}" style="color: #4CAF50;">Home</a> |
+            <a href="{% url 'sell_book' %}" style="color: #4CAF50;">Sell a Book</a> |
+            <a href="{% url 'book-list' %}" style="color: #4CAF50;">All Books</a> |
+            <a href="{% url 'login' %}" style="color: #4CAF50;">Login</a> |
+            <a href="{% url 'signup' %}" style="color: #4CAF50;">Signup</a>
+        </div>
+    </footer>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

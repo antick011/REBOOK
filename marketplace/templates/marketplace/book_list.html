@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Books</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        .book-list-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .book-item img {
+            max-width: 100px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .book-item a {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .book-item a:hover {
+            color: #FF8C00;
+        }
+
+        .book-item span {
+            display: block;
+        }
+
+        .book-price {
+            color: green;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .btn-custom {
+            background-color: #FF8C00;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-custom:hover {
+            background-color: #FF7F00;
+        }
+
+        .back-btn {
+            margin-left: 10px;
+            color: #333;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: #FF8C00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4CAF50; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyZaXARHXKcndR03flngZmk3KZ4Ze6IQrGqQ&s" alt="Bookshop Logo" class="logo" style="width: 50px; height: auto;">
+                REBOOK
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sell_book' %}" style="color: white;">Sell a Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" style="color: white;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}" style="color: white;">Signup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book-list' %}" style="color: white;">All Books</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-3" method="get" action="{% url 'home' %}">
+                    <input class="form-control" type="search" placeholder="Search books" name="q" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5 book-list-container">
+        <h2 class="feature-heading">Available Books</h2>
+
+        <!-- Book List -->
+        <ul style="list-style-type: none; padding: 0;">
+            {% for book in books %}
+            <li class="book-item">
+                {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}">
+                {% else %}
+                <img src="https://via.placeholder.com/100x100" alt="No image available">
+                {% endif %}
+                <div>
+                    <a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a><br>
+                    <span>by {{ book.author }}</span><br>
+                    <span class="book-price">${{ book.price }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Add New Book Button -->
+        <div class="my-3">
+            <a href="{% url 'book-create' %}" class="btn-custom">Add a New Book</a>
+        </div>
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'home' %}" class="back-btn">Back to Home</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background-color: #333; color: white; padding: 20px 0;">
+        <div class="container text-center">
+            <p>&copy; 2024 REBOOK. All rights reserved.</p>
+            <a href="{% url 'home' %}" style="color: #4CAF50;">Home</a> |
+            <a href="{% url 'sell_book' %}" style="color: #4CAF50;">Sell a Book</a> |
+            <a href="{% url 'book-list' %}" style="color: #4CAF50;">All Books</a> |
+            <a href="{% url 'login' %}" style="color: #4CAF50;">Login</a> |
+            <a href="{% url 'signup' %}" style="color: #4CAF50;">Signup</a>
+        </div>
+    </footer>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
